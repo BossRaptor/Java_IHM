@@ -7,10 +7,10 @@ public class HBoxRoot extends HBox {
      GridPaneFormulaireReservation formulaire = new GridPaneFormulaireReservation();
 
      public HBoxRoot() {
-          super(10); // Espacement horizontal de 10 pixels entre les composants
+          super(20); // Espacement horizontal de 20 pixels entre les composants
           
-          // Ajout du calendrier à la HBox
-          getChildren().addAll(calendrier);
-          
+          getChildren().add(calendrier);
+
+          getChildren().add(formulaire);
      }
 }

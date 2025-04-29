@@ -214,3 +214,150 @@
     -fx-alignment: center;
     -fx-spacing: 6;
 }
+
+/* Styles pour le formulaire de réservation */
+.formulaire-reservation {
+    -fx-background-color: #1e1e1e;
+    -fx-padding: 15px;
+    -fx-border-color: rgba(80, 80, 80, 0.5);
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
+}
+
+.formulaire-reservation .label {
+    -fx-text-fill: #d0d0d0;
+    -fx-font-weight: bold;
+}
+
+.formulaire-reservation .text-field {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #505050;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.formulaire-reservation .text-field:focused {
+    -fx-border-color: #60cdff;
+}
+
+.formulaire-reservation .combo-box {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #505050;
+    -fx-border-radius: 4px;
+}
+
+.formulaire-reservation .combo-box .list-cell {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+}
+
+.formulaire-reservation .combo-box-popup .list-view {
+    -fx-background-color: #333333;
+}
+
+.formulaire-reservation .combo-box-popup .list-cell {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+}
+
+.formulaire-reservation .combo-box-popup .list-cell:hover {
+    -fx-background-color: #505050;
+}
+
+.formulaire-reservation .combo-box-popup .list-cell:selected {
+    -fx-background-color: #60cdff;
+    -fx-text-fill: #121212;
+}
+
+.formulaire-reservation .date-picker .text-field {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+}
+
+.formulaire-reservation .date-picker .arrow-button {
+    -fx-background-color: #3d5a73;
+}
+
+.formulaire-reservation .date-picker .arrow-button .arrow {
+    -fx-background-color: #e0e0e0;
+}
+
+.formulaire-reservation .date-picker-popup {
+    -fx-background-color: #333333;
+    -fx-border-color: #505050;
+}
+
+.formulaire-reservation .date-picker-popup .month-year-pane {
+    -fx-background-color: #3d5a73;
+}
+
+.formulaire-reservation .date-picker-popup .month-year-pane .label {
+    -fx-text-fill: #e0e0e0;
+}
+
+.formulaire-reservation .date-picker-popup .week-number-cell {
+    -fx-text-fill: #909090;
+}
+
+.formulaire-reservation .date-picker-popup .day-cell {
+    -fx-background-color: #333333;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #505050;
+}
+
+.formulaire-reservation .date-picker-popup .day-cell:hover {
+    -fx-background-color: #505050;
+}
+
+.formulaire-reservation .date-picker-popup .selected {
+    -fx-background-color: #60cdff;
+    -fx-text-fill: #121212;
+}
+
+.formulaire-reservation .radio-button {
+    -fx-text-fill: #d0d0d0;
+}
+
+.formulaire-reservation .radio-button .radio {
+    -fx-background-color: #333333;
+    -fx-border-color: #505050;
+    -fx-border-radius: 10px;
+}
+
+.formulaire-reservation .radio-button:selected .radio .dot {
+    -fx-background-color: #60cdff;
+}
+
+.bouton-enregistrer {
+    -fx-background-color: #3d5a73;
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 0px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 2);
+}
+
+.bouton-enregistrer:hover {
+    -fx-background-color: #60cdff;
+    -fx-text-fill: #121212;
+    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.6), 8, 0, 0, 2);
+}
+
+/* Style pour le bouton Annuler */
+.bouton-annuler {
+    -fx-background-color: #4d3339;
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 0px;
+}
+
+.bouton-annuler:hover {
+    -fx-background-color: #ff6b6b;
+    -fx-text-fill: #121212;
+}
