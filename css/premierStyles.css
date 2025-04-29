@@ -99,7 +99,6 @@
     -fx-min-height: 42px;
     -fx-max-width: 42px;
     -fx-max-height: 42px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
     -fx-transition: -fx-background-color 0.2s ease-in-out, -fx-text-fill 0.2s ease-in-out;
 }
 
@@ -107,27 +106,19 @@
     -fx-background-color: rgba(96, 205, 255, 0.2); /* Bleu subtil au survol */
     -fx-text-fill: #60cdff; /* Texte en bleu clair */
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.4), 8, 0, 0, 1);
 }
 
-/* Today's date special styling */
+/* Today's date special styling - juste bleu foncé sans cadre supplémentaire */
 .label-date.today {
-    -fx-background-color: rgba(96, 205, 255, 0.3);
+    -fx-text-fill: #3d5a73; /* Bleu foncé */
     -fx-font-weight: 700;
-    -fx-text-fill: #60cdff;
-    -fx-border-color: rgba(96, 205, 255, 0.6);
-    -fx-border-width: 1.5px;
-    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.4), 8, 0, 0, 1);
 }
 
-/* Selected date styling */
+/* Selected date styling - plus discret */
 .label-date.selected {
-    -fx-background-color: rgba(255, 140, 50, 0.3); /* Orange subtil pour contraster avec le bleu */
-    -fx-font-weight: 700;
+    -fx-background-color: rgba(255, 140, 50, 0.2); /* Orange très subtil */
     -fx-text-fill: #ff8c32; /* Orange vif */
-    -fx-border-color: rgba(255, 140, 50, 0.6);
-    -fx-border-width: 1.5px;
-    -fx-effect: dropshadow(gaussian, rgba(255, 140, 50, 0.4), 8, 0, 0, 1);
+    -fx-font-weight: 700;
 }
 
 /* StackPane styling for months */
@@ -275,14 +266,21 @@
 .formulaire-reservation .date-picker .text-field {
     -fx-background-color: #333333;
     -fx-text-fill: #e0e0e0;
+    -fx-border-color: #505050;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 }
 
+/* Date picker sans bouton calendrier */
 .formulaire-reservation .date-picker .arrow-button {
-    -fx-background-color: #3d5a73;
-}
-
-.formulaire-reservation .date-picker .arrow-button .arrow {
-    -fx-background-color: #e0e0e0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-min-width: 0;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-opacity: 0;
+    -fx-visibility: hidden;
 }
 
 .formulaire-reservation .date-picker-popup {
@@ -360,4 +358,34 @@
 .bouton-annuler:hover {
     -fx-background-color: #ff6b6b;
     -fx-text-fill: #121212;
+}
+
+/* Style pour le DatePicker sans bouton calendrier */
+.date-picker-plain {
+    -fx-background-color: transparent;
+}
+
+/* Supprime complètement le bouton calendrier */
+.date-picker-plain > .arrow-button {
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-min-width: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-shape: "";
+    -fx-visibility: hidden;
+}
+
+/* Style pour le champ texte du DatePicker */
+.date-picker-plain > .text-field {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 5px;
+    -fx-border-color: #505050;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
 }

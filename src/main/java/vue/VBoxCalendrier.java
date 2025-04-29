@@ -7,20 +7,39 @@ import javafx.scene.layout.*;
 import modele.DateCalendrier;
 import modele.CalendrierDuMois;
 import java.time.LocalDate;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * Composant qui affiche un calendrier mensuel avec navigation
+ */
 public class VBoxCalendrier extends VBox {
+    // Mois actuellement affiché (1-12)
     private int currentMonthIndex;
+    // Étiquette affichant le nom du mois
     private Label monthLabel;
+    // Conteneur pour empiler les 12 mois
     private StackPane stackPaneMois;
+    // Date actuellement sélectionnée
+    private Label selectedDateLabel;
+    // Propriété observable pour la date sélectionnée
+    private ObjectProperty<LocalDate> selectedDate = new SimpleObjectProperty<>();
+    // Année courante
+    private int anneeCourante;
 
+    /**
+     * Constructeur qui initialise le calendrier
+     */
     public VBoxCalendrier() {
         super(10); // Espacement de 10 entre les éléments
         getStyleClass().add("root-container");
 
+        // Titre de bienvenue
         Label labelHello = new Label("Bonjour !");
         labelHello.getStyleClass().add("label-primary");
         getChildren().add(labelHello);
 
+        // Sous-titre
         Label labelHelloBis = new Label("Voici le calendrier");
         labelHelloBis.getStyleClass().add("label-secondary");
         getChildren().add(labelHelloBis);
@@ -29,7 +48,7 @@ public class VBoxCalendrier extends VBox {
         LocalDate aujourdhui = LocalDate.now();
         int jourAujourdhui = aujourdhui.getDayOfMonth();
         int moisAujourdhui = aujourdhui.getMonthValue();
-        int anneeCourante = aujourdhui.getYear();
+        anneeCourante = aujourdhui.getYear();
 
         // Création d'un StackPane pour empiler les 12 mois
         stackPaneMois = new StackPane();
@@ -41,7 +60,7 @@ public class VBoxCalendrier extends VBox {
 
         // Création du conteneur pour le mois et les boutons
         HBox bottomContainer = new HBox(10);
-        bottomContainer.setAlignment(Pos.CENTER); // Alignement centré au lieu de BOTTOM_RIGHT
+        bottomContainer.setAlignment(Pos.CENTER); // Alignement centré
 
         // Label pour le mois
         monthLabel = new Label("");
@@ -63,14 +82,16 @@ public class VBoxCalendrier extends VBox {
         mainContainer.setCenter(stackPaneMois);
         mainContainer.setBottom(bottomContainer);
 
-        // Création des mois
+        // Création des 12 mois du calendrier
         for (int mois = 1; mois <= 12; mois++) {
+            // Obtenir les données du calendrier pour ce mois
             CalendrierDuMois calendrier = new CalendrierDuMois(mois, anneeCourante);
 
+            // Conteneur pour un mois
             VBox monthContainer = new VBox(5);
             monthContainer.getStyleClass().add("month-container");
 
-            // Create HBox for weekday headers
+            // Création de l'en-tête pour les jours de la semaine
             HBox weekDaysHeader = new HBox(5);
             weekDaysHeader.getStyleClass().add("week-days-header");
 
@@ -84,13 +105,13 @@ public class VBoxCalendrier extends VBox {
 
             monthContainer.getChildren().add(weekDaysHeader);
 
-            // Create GridPane for dates instead of TilePane
+            // Création de la grille pour les dates
             GridPane datesGrid = new GridPane();
             datesGrid.getStyleClass().add("dates-container");
             datesGrid.setHgap(5);
             datesGrid.setVgap(5);
 
-            // Obtenir le jour de la semaine du premier jour du mois
+            // Calcul de la position du premier jour du mois
             DateCalendrier premierJour = null;
             for (DateCalendrier date : calendrier.getDates()) {
                 if (date.getJour() == 0) {
@@ -105,18 +126,39 @@ public class VBoxCalendrier extends VBox {
                 column = 6;
             int row = 0;
 
+            // Ajout de toutes les dates du mois à la grille
             for (DateCalendrier date : calendrier.getDates()) {
-                Label labelDate = new Label(String.valueOf(date.getJour()));
-                labelDate.getStyleClass().add("label-date");
-                final int dayNumber = date.getJour();
+                int jour = date.getJour();
+                if (jour > 0) { // On n'affiche que les jours valides (pas les 0)
+                    Label labelDate = new Label(String.valueOf(jour));
+                    labelDate.getStyleClass().add("label-date");
+                    
+                    // Stocker les informations de date dans les propriétés du label
+                    labelDate.getProperties().put("jour", jour);
+                    labelDate.getProperties().put("mois", mois);
+                    labelDate.getProperties().put("annee", anneeCourante);
 
-                if (date.getJour() == jourAujourdhui &&
-                        date.getMois() == moisAujourdhui &&
-                        date.getAnnee() == anneeCourante) {
-                    labelDate.getStyleClass().add("today");
+                    // Mettre en évidence la date du jour
+                    if (date.getJour() == jourAujourdhui &&
+                            date.getMois() == moisAujourdhui &&
+                            date.getAnnee() == anneeCourante) {
+                        labelDate.getStyleClass().add("today");
+                        // Sélection par défaut de la date du jour
+                        selectedDateLabel = labelDate;
+                        selectedDate.set(LocalDate.of(anneeCourante, mois, jour));
+                        labelDate.getStyleClass().add("selected");
+                    }
+
+                    // Ajouter un gestionnaire de clic pour sélectionner la date
+                    final Label finalLabelDate = labelDate;
+                    labelDate.setOnMouseClicked(e -> {
+                        selectDate(finalLabelDate);
+                    });
+
+                    // Ajouter la date à la grille et passer à la position suivante
+                    datesGrid.add(labelDate, column, row);
                 }
-
-                datesGrid.add(labelDate, column, row);
+                
                 column++;
                 if (column > 6) {
                     column = 0;
@@ -124,30 +166,81 @@ public class VBoxCalendrier extends VBox {
                 }
             }
 
+            // Ajouter la grille de dates au conteneur du mois
             monthContainer.getChildren().add(datesGrid);
+            // Ajouter le mois au stack pane
             stackPaneMois.getChildren().add(monthContainer);
+            // Marquer le mois pour le retrouver plus tard
             monthContainer.setAccessibleText(String.valueOf(mois));
         }
 
+        // Initialiser le mois courant et l'afficher
         currentMonthIndex = moisAujourdhui;
         updateMonthDisplay();
         showCurrentMonth();
 
+        // Ajouter tout au conteneur principal
         getChildren().add(mainContainer);
     }
+    
+    /**
+     * Sélectionne une date dans le calendrier
+     * @param dateLabel L'étiquette de la date à sélectionner
+     */
+    private void selectDate(Label dateLabel) {
+        // Désélectionner l'ancienne date si elle existe
+        if (selectedDateLabel != null) {
+            selectedDateLabel.getStyleClass().remove("selected");
+        }
+        
+        // Sélectionner la nouvelle date
+        selectedDateLabel = dateLabel;
+        dateLabel.getStyleClass().add("selected");
+        
+        // Récupérer les informations de date
+        int jour = (Integer) dateLabel.getProperties().get("jour");
+        int mois = (Integer) dateLabel.getProperties().get("mois");
+        int annee = (Integer) dateLabel.getProperties().get("annee");
+        
+        // Mettre à jour la propriété observable
+        selectedDate.set(LocalDate.of(annee, mois, jour));
+    }
+    
+    /**
+     * Retourne la propriété observable de la date sélectionnée
+     */
+    public ObjectProperty<LocalDate> selectedDateProperty() {
+        return selectedDate;
+    }
+    
+    /**
+     * Retourne la date actuellement sélectionnée
+     */
+    public LocalDate getSelectedDate() {
+        return selectedDate.get();
+    }
 
+    /**
+     * Affiche le mois suivant
+     */
     private void showNextMonth() {
         currentMonthIndex = (currentMonthIndex % 12) + 1;
         updateMonthDisplay();
         showCurrentMonth();
     }
 
+    /**
+     * Affiche le mois précédent
+     */
     private void showPrevMonth() {
         currentMonthIndex = (currentMonthIndex > 1) ? (currentMonthIndex - 1) : 12;
         updateMonthDisplay();
         showCurrentMonth();
     }
 
+    /**
+     * Met à jour l'affichage du nom du mois
+     */
     private void updateMonthDisplay() {
         CalendrierDuMois calendrier = new CalendrierDuMois(currentMonthIndex, LocalDate.now().getYear());
 
@@ -159,6 +252,9 @@ public class VBoxCalendrier extends VBox {
         monthLabel.setText(nomMois);
     }
 
+    /**
+     * Affiche le mois courant en le mettant au premier plan
+     */
     private void showCurrentMonth() {
         String monthToShow = String.valueOf(currentMonthIndex);
         for (javafx.scene.Node node : stackPaneMois.getChildren()) {
@@ -172,18 +268,27 @@ public class VBoxCalendrier extends VBox {
         }
     }
 
+    /**
+     * Affiche le premier mois (janvier)
+     */
     private void showFirstMonth() {
         currentMonthIndex = 1;
         updateMonthDisplay();
         showCurrentMonth();
     }
 
+    /**
+     * Affiche le dernier mois (décembre)
+     */
     private void showLastMonth() {
         currentMonthIndex = 12;
         updateMonthDisplay();
         showCurrentMonth();
     }
 
+    /**
+     * Méthode principale pour tester le composant
+     */
     public static void main(String[] args) {
         PremiereApplication.main(args);
     }
