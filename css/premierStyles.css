@@ -1,57 +1,57 @@
-/* Modern Fluent Design CSS */
+/* Dark Mode Fluent Design CSS */
 
 /* Global styles */
 .root {
     -fx-font-family: 'Segoe UI', system-ui, sans-serif;
-    -fx-background-color: #f8f9fa;
+    -fx-background-color: #121212; /* Fond très sombre pour le mode nuit */
 }
 
 /* Main container */
 .root-container {
-    -fx-background-color: rgba(255, 255, 255, 0.85);
-    -fx-background-radius: 12px;
+    -fx-background-color: rgba(30, 30, 30, 0.95); /* Container principal sombre */
+    -fx-background-radius: 14px;
     -fx-padding: 24px;
-    -fx-spacing: 16px;
+    -fx-spacing: 18px;
     -fx-alignment: center;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 4);
-    -fx-border-color: rgba(200, 200, 200, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 0, 5); /* Ombre plus prononcée */
+    -fx-border-color: rgba(70, 70, 70, 0.5);
     -fx-border-width: 1px;
-    -fx-border-radius: 12px;
+    -fx-border-radius: 14px;
 }
 
 /* Primary label styling */
 .label-primary {
     -fx-font-size: 28px;
     -fx-font-weight: 600;
-    -fx-text-fill: #0078d7;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 215, 0.2), 1, 0, 0, 1);
+    -fx-text-fill: #60cdff; /* Bleu clair qui ressort bien sur fond sombre */
+    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.4), 2, 0, 0, 1);
 }
 
 /* Secondary label styling */
 .label-secondary {
     -fx-font-size: 18px;
     -fx-font-weight: 400;
-    -fx-text-fill: #505050;
+    -fx-text-fill: #b0b0b0; /* Gris clair pour contraste modéré */
 }
 
 /* Base label styling */
 .label {
     -fx-padding: 6px 0;
-    -fx-opacity: 0.95;
+    -fx-opacity: 0.98;
 }
 
 /* ScrollPane styling */
 .calendar-scroll {
-    -fx-background: white;
-    -fx-background-color: white;
-    -fx-border-color: rgba(200, 200, 200, 0.3);
+    -fx-background: #1e1e1e;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: rgba(80, 80, 80, 0.5);
     -fx-border-width: 1px;
-    -fx-border-radius: 8px;
-    -fx-padding: 2px;
+    -fx-border-radius: 10px;
+    -fx-padding: 3px;
 }
 
 .calendar-scroll > .viewport {
-    -fx-background-color: white;
+    -fx-background-color: #1e1e1e;
 }
 
 .calendar-scroll > .scroll-bar {
@@ -59,24 +59,24 @@
 }
 
 .calendar-scroll > .scroll-bar > .thumb {
-    -fx-background-color: rgba(0, 120, 215, 0.3);
+    -fx-background-color: rgba(96, 205, 255, 0.3);
     -fx-background-radius: 10;
 }
 
 .calendar-scroll > .scroll-bar > .track {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(50, 50, 50, 0.6);
 }
 
 /* Dates container */
 .dates-container {
-    -fx-background-color: white;
-    -fx-padding: 10px;
+    -fx-background-color: #1e1e1e;
+    -fx-padding: 12px;
     -fx-alignment: center;
-    -fx-hgap: 5;
-    -fx-vgap: 5;
+    -fx-hgap: 6;
+    -fx-vgap: 6;
     -fx-pref-columns: 7;
-    -fx-min-width: 334px;  /* (42px * 7) + (5px * 6) + 20px padding */
-    -fx-max-width: 334px;
+    -fx-min-width: 340px;
+    -fx-max-width: 340px;
     -fx-pref-tile-width: 42;
     -fx-pref-tile-height: 42;
     -fx-tile-alignment: center;
@@ -85,12 +85,12 @@
 
 /* Date labels */
 .label-date {
-    -fx-background-color: rgba(240, 240, 240, 0.8);
+    -fx-background-color: rgba(50, 50, 50, 0.8); /* Gris foncé pour les dates */
     -fx-background-radius: 21px;
     -fx-padding: 0;
     -fx-font-size: 16px;
     -fx-font-weight: 400;
-    -fx-text-fill: #333333;
+    -fx-text-fill: #d0d0d0; /* Texte en gris clair pour bon contraste */
     -fx-alignment: center;
     -fx-content-display: center;
     -fx-pref-width: 42px;
@@ -99,57 +99,61 @@
     -fx-min-height: 42px;
     -fx-max-width: 42px;
     -fx-max-height: 42px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 4, 0, 0, 1);
-    -fx-transition: -fx-background-color 0.15s ease-in-out;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+    -fx-transition: -fx-background-color 0.2s ease-in-out, -fx-text-fill 0.2s ease-in-out;
 }
 
 .label-date:hover {
-    -fx-background-color: rgba(0, 120, 215, 0.1);
-    -fx-text-fill: #0078d7;
+    -fx-background-color: rgba(96, 205, 255, 0.2); /* Bleu subtil au survol */
+    -fx-text-fill: #60cdff; /* Texte en bleu clair */
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.4), 8, 0, 0, 1);
 }
 
 /* Today's date special styling */
 .label-date.today {
-    -fx-background-color: rgba(0, 120, 215, 0.2);
+    -fx-background-color: rgba(96, 205, 255, 0.3);
     -fx-font-weight: 700;
-    -fx-text-fill: #0078d7;
-    -fx-border-color: rgba(0, 120, 215, 0.4);
-    -fx-border-width: 1px;
+    -fx-text-fill: #60cdff;
+    -fx-border-color: rgba(96, 205, 255, 0.6);
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.4), 8, 0, 0, 1);
 }
 
 /* Selected date styling */
 .label-date.selected {
-    -fx-background-color: rgba(255, 140, 0, 0.2);
+    -fx-background-color: rgba(255, 140, 50, 0.3); /* Orange subtil pour contraster avec le bleu */
     -fx-font-weight: 700;
-    -fx-text-fill: #ff8c00;
-    -fx-border-color: rgba(255, 140, 0, 0.4);
-    -fx-border-width: 1px;
+    -fx-text-fill: #ff8c32; /* Orange vif */
+    -fx-border-color: rgba(255, 140, 50, 0.6);
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 140, 50, 0.4), 8, 0, 0, 1);
 }
 
 /* StackPane styling for months */
 .stack-pane-mois {
-    -fx-background-color: white;
-    -fx-border-color: rgba(200, 200, 200, 0.3);
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: rgba(80, 80, 80, 0.5);
     -fx-border-width: 1px;
-    -fx-border-radius: 8px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
 }
 
 /* Month label styling */
 .label-mois {
     -fx-font-size: 20px;
     -fx-font-weight: 600;
-    -fx-text-fill: #0078d7;
-    -fx-padding: 8px 0 12px 0;
-    -fx-background-color: white;
+    -fx-text-fill: #60cdff;
+    -fx-padding: 10px 0 14px 0;
+    -fx-background-color: #1e1e1e;
     -fx-alignment: center;
     -fx-max-width: infinity;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
 }
 
 /* Month container */
 .month-container {
-    -fx-background-color: white;
+    -fx-background-color: #1e1e1e;
     -fx-padding: 10px;
     -fx-alignment: center;
     -fx-min-width: 334px;
@@ -160,30 +164,33 @@
 .month-label {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0078d7;
+    -fx-text-fill: #60cdff;
     -fx-padding: 10px;
 }
 
 .nav-button {
-    -fx-background-color: #0078d7;
-    -fx-text-fill: white;
+    -fx-background-color: #3d5a73; /* Bleu foncé pour les boutons */
+    -fx-text-fill: #e0e0e0;
     -fx-font-size: 18px;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
     -fx-background-radius: 20px;
     -fx-padding: 5px 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 2);
 }
 
 .nav-button:hover {
-    -fx-background-color: #0056b3;
+    -fx-background-color: #60cdff;
+    -fx-text-fill: #121212; /* Texte noir sur fond bleu clair */
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(96, 205, 255, 0.6), 8, 0, 0, 2);
 }
 
 /* Style pour les en-têtes des jours de la semaine */
 .label-jour-semaine {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0078d7;
+    -fx-text-fill: #60cdff;
     -fx-alignment: center;
     -fx-content-display: center;
     -fx-pref-width: 42px;
@@ -192,16 +199,18 @@
     -fx-pref-height: 30px;
     -fx-min-height: 30px;
     -fx-padding: 5px;
+    -fx-background-color: rgba(60, 60, 60, 0.6); /* Gris foncé pour l'en-tête */
+    -fx-background-radius: 5px;
 }
 
 /* Style pour les cases vides */
 .label-vide {
     -fx-background-color: transparent;
-    -fx-opacity: 0.3;
+    -fx-opacity: 0.15;
 }
 
 .week-days-header {
-    -fx-padding: 5px;
+    -fx-padding: 5px 5px 8px 5px;
     -fx-alignment: center;
-    -fx-spacing: 5;
+    -fx-spacing: 6;
 }

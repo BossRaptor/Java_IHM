@@ -8,20 +8,20 @@ import modele.DateCalendrier;
 import modele.CalendrierDuMois;
 import java.time.LocalDate;
 
-public class VBoxRoot extends VBox {
+public class VBoxCalendrier extends VBox {
     private int currentMonthIndex;
     private Label monthLabel;
     private StackPane stackPaneMois;
 
-    public VBoxRoot() {
+    public VBoxCalendrier() {
         super(10); // Espacement de 10 entre les éléments
         getStyleClass().add("root-container");
 
-        Label labelHello = new Label("Hello");
+        Label labelHello = new Label("Bonjour !");
         labelHello.getStyleClass().add("label-primary");
         getChildren().add(labelHello);
 
-        Label labelHelloBis = new Label("Hello JavaFX");
+        Label labelHelloBis = new Label("Voici le calendrier");
         labelHelloBis.getStyleClass().add("label-secondary");
         getChildren().add(labelHelloBis);
 

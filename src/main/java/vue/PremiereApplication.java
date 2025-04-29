@@ -11,7 +11,7 @@ public class PremiereApplication extends Application {
     public void start(@SuppressWarnings("exports") Stage stage) {
         File css = new File("css" + File.separator + "premierStyles.css");
 
-        VBoxRoot root = new VBoxRoot();
+        HBoxRoot root = new HBoxRoot();
 
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(css.toURI().toString());
