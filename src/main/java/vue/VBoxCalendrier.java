@@ -41,16 +41,11 @@ public class VBoxCalendrier extends VBox {
 
         // Création du conteneur pour le mois et les boutons
         HBox bottomContainer = new HBox(10);
-        bottomContainer.setAlignment(Pos.BOTTOM_RIGHT);
+        bottomContainer.setAlignment(Pos.CENTER); // Alignement centré au lieu de BOTTOM_RIGHT
 
         // Label pour le mois
         monthLabel = new Label("");
         monthLabel.getStyleClass().add("month-label");
-
-        // Bouton pour janvier
-        Button firstMonthBtn = new Button("⟪");
-        firstMonthBtn.getStyleClass().add("nav-button");
-        firstMonthBtn.setOnAction(e -> showFirstMonth());
 
         // Bouton pour le mois précédent
         Button prevMonthBtn = new Button("←");
@@ -62,12 +57,7 @@ public class VBoxCalendrier extends VBox {
         nextMonthBtn.getStyleClass().add("nav-button");
         nextMonthBtn.setOnAction(e -> showNextMonth());
 
-        // Bouton pour décembre
-        Button lastMonthBtn = new Button("⟫");
-        lastMonthBtn.getStyleClass().add("nav-button");
-        lastMonthBtn.setOnAction(e -> showLastMonth());
-
-        bottomContainer.getChildren().addAll(firstMonthBtn, prevMonthBtn, monthLabel, nextMonthBtn, lastMonthBtn);
+        bottomContainer.getChildren().addAll(prevMonthBtn, monthLabel, nextMonthBtn);
 
         // Placement des éléments
         mainContainer.setCenter(stackPaneMois);

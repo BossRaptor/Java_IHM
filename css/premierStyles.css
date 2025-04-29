@@ -174,7 +174,7 @@
     -fx-font-size: 18px;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
-    -fx-background-radius: 20px;
+    -fx-background-radius: 0px; /* Boutons carrés au lieu de ronds */
     -fx-padding: 5px 10px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 2);
 }
