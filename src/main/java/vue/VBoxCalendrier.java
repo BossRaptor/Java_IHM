@@ -7,6 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.input.MouseEvent;
 import java.time.LocalDate;
 
 /**
@@ -18,7 +19,7 @@ public class VBoxCalendrier extends VBox {
     private int anneeCourante;
     private Label titreLabel;
     private GridPane grilleJours;
-    private Label selectedLabel; // Label de la date sélectionnée
+    private StackPane selectedStackPane; // StackPane de la date sélectionnée
     private LocalDate selectedDate; // Date sélectionnée
     
     // Noms des mois pour l'affichage
@@ -141,14 +142,17 @@ public class VBoxCalendrier extends VBox {
         for (int jour = 1; jour <= nombreJours; jour++) {
             final int jourFinal = jour;
             
+            // Créer StackPane pour contenir l'étiquette du jour
+            StackPane jourPane = new StackPane();
+            jourPane.setPrefSize(30, 30);
+            jourPane.setStyle("-fx-background-color: #333333; -fx-background-radius: 15;");
+            
             // Créer le label pour ce jour
             Label jourLabel = new Label(String.valueOf(jour));
-            jourLabel.setPrefSize(30, 30);
-            jourLabel.setAlignment(Pos.CENTER);
-            
-            // Style pour le jour
             jourLabel.setTextFill(Color.WHITE);
-            jourLabel.setStyle("-fx-background-color: #333333; -fx-background-radius: 15;");
+            
+            // Ajouter le label au StackPane
+            jourPane.getChildren().add(jourLabel);
             
             // Vérifier si c'est aujourd'hui
             LocalDate dateJour = LocalDate.of(anneeCourante, moisCourant + 1, jour);
@@ -159,36 +163,22 @@ public class VBoxCalendrier extends VBox {
             
             // Si c'est la date sélectionnée
             if (dateJour.equals(selectedDate)) {
-                jourLabel.setStyle("-fx-background-color: rgba(255, 140, 50, 0.2); -fx-background-radius: 15;");
+                jourPane.setStyle("-fx-background-color: rgba(255, 140, 50, 0.2); -fx-background-radius: 15;");
                 jourLabel.setTextFill(Color.web("#ff8c32"));
                 jourLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-                selectedLabel = jourLabel;
+                selectedStackPane = jourPane;
+                
+                // Rendre ce StackPane glissable (draggable)
+                configureDraggable(jourPane);
             }
             
-            // Ajouter un gestionnaire de clic
-            jourLabel.setOnMouseClicked(e -> {
-                // Désélectionner l'ancien jour
-                if (selectedLabel != null) {
-                    selectedLabel.setStyle("-fx-background-color: #333333; -fx-background-radius: 15;");
-                    selectedLabel.setTextFill(Color.WHITE);
-                    selectedLabel.setFont(Font.font("Arial", 12));
-                }
-                
-                // Sélectionner le nouveau jour
-                selectedLabel = jourLabel;
-                jourLabel.setStyle("-fx-background-color: rgba(255, 140, 50, 0.2); -fx-background-radius: 15;");
-                jourLabel.setTextFill(Color.web("#ff8c32"));
-                jourLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-                
-                // Mettre à jour la date sélectionnée
-                selectedDate = LocalDate.of(anneeCourante, moisCourant + 1, jourFinal);
-                
-                // Notification de changement de date
-                fireEvent(new DateEvent(this, selectedDate));
+            // Configurer l'événement de clic
+            jourPane.setOnMouseClicked(e -> {
+                selectionnerJour(jourPane, jourFinal);
             });
             
-            // Ajouter le label à la grille
-            grilleJours.add(jourLabel, colonne, ligne);
+            // Ajouter le StackPane à la grille
+            grilleJours.add(jourPane, colonne, ligne);
             
             colonne++;
             if (colonne > 6) {
@@ -196,6 +186,140 @@ public class VBoxCalendrier extends VBox {
                 ligne++;
             }
         }
+    }
+    
+    /**
+     * Sélectionne un jour dans le calendrier
+     */
+    private void selectionnerJour(StackPane jourPane, int jour) {
+        // Désélectionner l'ancien jour
+        if (selectedStackPane != null) {
+            // Supprimer le style de sélection
+            selectedStackPane.setStyle("-fx-background-color: #333333; -fx-background-radius: 15;");
+            
+            // Restaurer le texte blanc pour le label
+            Label label = (Label) selectedStackPane.getChildren().get(0);
+            label.setTextFill(Color.WHITE);
+            label.setFont(Font.font("Arial", 12));
+            
+            // Vérifier si l'ancien jour était aujourd'hui pour restaurer son style
+            if (selectedDate.equals(LocalDate.now())) {
+                label.setTextFill(Color.web("#3d5a73"));
+                label.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+            }
+        }
+        
+        // Sélectionner le nouveau jour
+        selectedStackPane = jourPane;
+        jourPane.setStyle("-fx-background-color: rgba(255, 140, 50, 0.2); -fx-background-radius: 15;");
+        
+        // Mettre à jour l'apparence du label
+        Label label = (Label) jourPane.getChildren().get(0);
+        label.setTextFill(Color.web("#ff8c32"));
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        
+        // Rendre ce StackPane glissable
+        configureDraggable(jourPane);
+        
+        // Mettre à jour la date sélectionnée
+        selectedDate = LocalDate.of(anneeCourante, moisCourant + 1, jour);
+        
+        // Notification de changement de date
+        fireEvent(new DateEvent(this, selectedDate));
+    }
+    
+    /**
+     * Configure un StackPane pour être glissable
+     */
+    private void configureDraggable(StackPane pane) {
+        // Variables pour stocker les coordonnées de départ
+        final double[] dragDelta = new double[2];
+        
+        pane.setOnMousePressed(e -> {
+            // Mémoriser la position initiale
+            dragDelta[0] = e.getSceneX();
+            dragDelta[1] = e.getSceneY();
+            
+            // Changer le curseur
+            pane.setCursor(javafx.scene.Cursor.MOVE);
+            
+            // Mettre en avant ce StackPane
+            pane.toFront();
+            
+            e.consume();
+        });
+        
+        pane.setOnMouseDragged(e -> {
+            // Effet visuel pendant le déplacement
+            pane.setStyle("-fx-background-color: rgba(255, 140, 50, 0.4); -fx-background-radius: 15;");
+            e.consume();
+        });
+        
+        pane.setOnMouseReleased(e -> {
+            // Restaurer le curseur
+            pane.setCursor(javafx.scene.Cursor.HAND);
+            
+            // Restaurer le style normal de sélection
+            pane.setStyle("-fx-background-color: rgba(255, 140, 50, 0.2); -fx-background-radius: 15;");
+            
+            // Trouver si on est sur une autre cellule
+            StackPane targetPane = findTargetPane(e);
+            
+            if (targetPane != null && targetPane != pane) {
+                // Récupérer les coordonnées dans la grille
+                int colonne = GridPane.getColumnIndex(targetPane);
+                int ligne = GridPane.getRowIndex(targetPane);
+                
+                // Calculer le jour correspondant
+                int jour = (ligne * 7 + colonne) - (premierJourDuMoisOffset()) + 1;
+                
+                // Vérifier si le jour est valide
+                if (jour >= 1 && jour <= nombreJoursDansMois()) {
+                    // Sélectionner ce jour
+                    selectionnerJour(targetPane, jour);
+                }
+            }
+        });
+        
+        // Effet de survol
+        pane.setOnMouseEntered(e -> pane.setCursor(javafx.scene.Cursor.HAND));
+    }
+    
+    /**
+     * Trouve le StackPane cible lors du déplacement
+     */
+    private StackPane findTargetPane(MouseEvent e) {
+        // Parcourir tous les StackPane de la grille
+        for (javafx.scene.Node node : grilleJours.getChildren()) {
+            if (node instanceof StackPane) {
+                StackPane pane = (StackPane) node;
+                
+                // Convertir les coordonnées de la souris
+                javafx.geometry.Point2D point = pane.sceneToLocal(e.getSceneX(), e.getSceneY());
+                
+                // Vérifier si le point est dans ce StackPane
+                if (pane.contains(point)) {
+                    return pane;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Calcule le décalage du premier jour du mois
+     */
+    private int premierJourDuMoisOffset() {
+        LocalDate premierJour = LocalDate.of(anneeCourante, moisCourant + 1, 1);
+        return premierJour.getDayOfWeek().getValue() - 1;
+    }
+    
+    /**
+     * Retourne le nombre de jours dans le mois courant
+     */
+    private int nombreJoursDansMois() {
+        LocalDate premierJour = LocalDate.of(anneeCourante, moisCourant + 1, 1);
+        return premierJour.lengthOfMonth();
     }
     
     /**
@@ -228,7 +352,7 @@ public class VBoxCalendrier extends VBox {
     }
     
     /**
-     * Classe d'événement simple pour notifier du changement de date
+     * Classe d'événement pour notifier du changement de date
      */
     public static class DateEvent extends javafx.event.Event {
         public static final javafx.event.EventType<DateEvent> DATE_CHANGED = 
