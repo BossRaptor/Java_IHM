@@ -1,44 +1,45 @@
 package vue;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import java.time.LocalDate;
 
 /**
- * Conteneur principal de l'application
- * Organise horizontalement le calendrier et le formulaire de réservation
+ * Conteneur principal simplifié
  */
 public class HBoxRoot extends HBox {
-     // Composant calendrier à afficher à gauche
-     VBoxCalendrier calendrier = new VBoxCalendrier();
-     // Formulaire de réservation à afficher à droite
-     GridPaneFormulaireReservation formulaire = new GridPaneFormulaireReservation();
+    // Composants principaux
+    private VBoxCalendrier calendrier;
+    private GridPaneFormulaireReservation formulaire;
 
-     /**
-      * Constructeur qui initialise le conteneur principal
-      */
-     public HBoxRoot() {
-          super(20); // Espacement horizontal de 20 pixels entre les composants
-          
-          // Ajout du calendrier à gauche
-          getChildren().add(calendrier);
-          
-          // Ajout du formulaire de réservation à droite
-          getChildren().add(formulaire);
-          
-          // Connexion entre le calendrier et le formulaire
-          // Quand une date est sélectionnée dans le calendrier, elle est automatiquement 
-          // mise à jour dans le formulaire
-          calendrier.selectedDateProperty().addListener((observable, oldValue, newValue) -> {
-               if (newValue != null) {
-                    // Mettre à jour la date dans le formulaire
-                    formulaire.setDate(newValue);
-               }
-          });
-          
-          // Initialisation avec la date actuelle
-          LocalDate dateInitiale = calendrier.getSelectedDate();
-          if (dateInitiale != null) {
-               formulaire.setDate(dateInitiale);
-          }
-     }
+    /**
+     * Constructeur
+     */
+    public HBoxRoot() {
+        super(20); // 20 pixels d'espacement
+        
+        // Style du conteneur principal
+        this.setStyle("-fx-background-color: #121212; -fx-padding: 20px;");
+        this.setAlignment(Pos.CENTER); // Centrer les composants
+        
+        // Créer les composants
+        calendrier = new VBoxCalendrier();
+        formulaire = new GridPaneFormulaireReservation();
+        
+        // S'assurer que les deux composants ont la même hauteur
+        calendrier.setMinHeight(500);
+        formulaire.setMinHeight(500);
+        
+        // Ajouter les composants à l'interface
+        getChildren().addAll(calendrier, formulaire);
+        
+        // Connecter le calendrier au formulaire
+        calendrier.addDateChangeListener(event -> {
+            formulaire.setDate(event.getDate());
+        });
+        
+        // Définir les largeurs préférées (50% chacun)
+        calendrier.prefWidthProperty().bind(this.widthProperty().multiply(0.48));
+        formulaire.prefWidthProperty().bind(this.widthProperty().multiply(0.48));
+    }
 }
