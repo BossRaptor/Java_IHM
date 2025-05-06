@@ -1,9 +1,12 @@
 package vue;
 
+import controleur.Controleur;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import modele.Planning;
 import modele.PlanningCollections;
+import controleur.Controleur;
 
 /**
  * Conteneur principal simplifié
@@ -13,7 +16,8 @@ public class HBoxRoot extends HBox {
     private VBoxCalendrier calendrier;
     private GridPaneFormulaireReservation formulaire;
     private static Planning planning;
-    private static Constructor constructeur;
+    private static Controleur controleur;
+
 
 
     /**
