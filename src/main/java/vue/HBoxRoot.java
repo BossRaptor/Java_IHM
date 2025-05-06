@@ -17,6 +17,8 @@ public class HBoxRoot extends HBox {
     private GridPaneFormulaireReservation formulaire;
     private static Planning planning;
     private static Controleur controleur;
+    private VBoxCalendrier calendrierPane;
+    private GridPaneFormulaireReservation reservationPane;
 
 
 
